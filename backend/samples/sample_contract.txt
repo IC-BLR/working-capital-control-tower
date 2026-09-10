@@ -1,0 +1,9 @@
+Contract ID: CTR-99977
+Vendor: Apex Components
+Category: Manufacturing Parts
+Effective Date: 2026-01-01
+End Date: 2026-12-31
+Contract Value: USD 900000
+Payment Terms: Net 45
+Tolerance: 2%
+Unit price variance above tolerance requires sourcing approval.

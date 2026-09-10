@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+*.duckdb
+.db_init.lock
+data/app.log
+.DS_Store
+build/
+dist/
+*.egg-info/
+.pytest_cache/

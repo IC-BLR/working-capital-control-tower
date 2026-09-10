@@ -1,0 +1,15 @@
+Invoice Number: INV-55501
+Vendor: Apex Components
+GSTIN: 29ABCDE1234F1Z5
+PO Number: PO-77994
+Contract ID: CTR-7729
+Billing Period: 2026-05-01 to 2026-05-31
+Description | Qty | Unit Price | Amount
+Cloud platform subscription | 120 | 525.00 | 63000.00
+Premium support hours | 24 | 550.00 | 13200.00
+Subtotal: USD 76200
+GST: USD 13716
+TDS Rate: 10%
+TDS: USD 7620
+Invoice Total: USD 89916
+Payment Terms: Net 45

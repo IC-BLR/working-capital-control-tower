@@ -1,0 +1,9 @@
+Purchase Order Number: PO-99977
+PO Date: 2026-06-19
+Vendor: Northstar Logistics
+Buyer: Procurement Ops
+Requested By: Distribution Team
+Contract ID: CTR-9014
+PO Total: USD 42000
+Payment Terms: Net 30
+Description: Freight and logistics services

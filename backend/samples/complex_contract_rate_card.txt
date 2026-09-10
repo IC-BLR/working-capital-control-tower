@@ -1,0 +1,14 @@
+Contract ID: CTR-99977
+Vendor: Apex Components
+Category: Cloud Services
+Effective Date: 2026-01-01
+End Date: 2026-12-31
+Contract Value: USD 900000
+Payment Terms: Net 45
+Tolerance: 2%
+Rate Card
+Cloud platform subscription | 1 | 525.00 | 525.00
+Premium support hours | 1 | 550.00 | 550.00
+Billing rule: invoices must cover monthly service periods only.
+Tax clause: GST and TDS must be shown separately.
+Unit price variance above tolerance requires sourcing approval.

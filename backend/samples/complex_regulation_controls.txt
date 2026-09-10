@@ -1,0 +1,10 @@
+Policy ID: REG-NEW-010
+Title: Material Invoice Approval Policy
+Category: Audit
+Jurisdiction: India
+Approval Threshold: USD 50000
+REG-001: Invoices must have purchase order linkage unless explicitly approved as Non-PO.
+REG-002: All invoices above threshold require Finance Manager approval.
+REG-003: GST and TDS evidence must be reviewed by Tax Reviewer.
+REG-004: Missing contract or rate card mismatch must block payment and create exception.
+REG-005: Controller approval is required for high-risk or override payments.

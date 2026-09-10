@@ -1,0 +1,8 @@
+Invoice Number: INV-55501
+Invoice Date: 2026-06-19
+Vendor: Apex Components
+PO Number: PO-77994
+Contract ID: CTR-7729
+Invoice Total: USD 76200
+Payment Terms: Net 45
+Description: Machined component batch

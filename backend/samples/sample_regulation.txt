@@ -1,0 +1,6 @@
+Policy ID: REG-NEW-010
+Title: Material Invoice Approval Policy
+Category: Audit
+Jurisdiction: Global
+Approval Threshold: USD 50000
+Invoices must have PO linkage, contract validation, exception documentation, and approval audit trail before payment.
