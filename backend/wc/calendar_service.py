@@ -10,7 +10,10 @@ from ar.services.services import APIServices
 from ap.store import INVOICES
 from ap.services.approval import evaluate_invoice, sync_approval_workflow
 
+from wc.action_ranking import build_and_rank_actions
+from wc.alerts import evaluate_alerts
 from wc.cash_events import ap_events_from_invoices, ar_events_from_forecast, ensure_ap_wc_fields
+from wc.metrics import compute_wc_metrics
 from wc.store import COLLECT_PRIORITIES
 
 
@@ -34,9 +37,11 @@ def build_calendar(
     days: int = 30,
     scenario: str | None = None,
     defer_ap_days: int = 0,
+    period_days: int = 90,
 ) -> dict[str, Any]:
     days = max(1, min(int(days or 30), 365))
     defer_ap_days = max(0, min(int(defer_ap_days or 0), 90))
+    period_days = max(7, min(int(period_days or 90), 365))
     today = date.today()
     end = today + timedelta(days=days - 1)
 
@@ -61,8 +66,10 @@ def build_calendar(
 
     forecast: dict[str, Any] = {}
     ar_summary: dict[str, Any] = {}
+    db = None
     try:
-        forecast_svc = ForecastService(get_duckdb())
+        db = get_duckdb()
+        forecast_svc = ForecastService(db)
         # Prefer known scenario ids from AR; unknown → baseline
         try:
             forecast = forecast_svc.forecast(days=days, partner_code=None, scenario=ar_scenario)
@@ -141,71 +148,92 @@ def build_calendar(
         or 0
     )
 
-    actions = []
-    if held_amt > 0:
-        actions.append(
-            {
-                "id": "review_holds",
-                "label": "Review AP holds",
-                "detail": f"₹{held_amt:,.0f} blocked by exceptions/holds",
-                "ui_path": "/ap",
-            }
-        )
-    top_in = sorted(
-        [e for e in horizon_events if e["direction"] == "inflow"],
-        key=lambda x: x["amount"],
-        reverse=True,
-    )[:3]
-    for e in top_in:
-        if not e.get("collect_priority"):
-            actions.append(
-                {
-                    "id": f"collect-{e['source_ref']}",
-                    "label": "Prioritize collect",
-                    "detail": f"{e['counterparty_name']} · ₹{e['amount']:,.0f}",
-                    "ui_path": e["links"]["ui_path"],
-                    "partner_code": e["counterparty_id"],
-                    "invoice_number": e["source_ref"],
-                }
-            )
-    top_out = sorted(
-        [e for e in horizon_events if e.get("certainty") == "obligated"],
-        key=lambda x: x["amount"],
-        reverse=True,
-    )[:3]
-    for e in top_out:
-        actions.append(
-            {
-                "id": f"hold-{e['source_ref']}",
-                "label": "Hold pay",
-                "detail": f"{e['counterparty_name']} · ₹{e['amount']:,.0f}",
-                "ui_path": e["links"]["ui_path"],
-                "invoice_id": e["source_ref"],
-            }
-        )
+    wc_metrics = compute_wc_metrics(
+        db,
+        ap_invoices=list(INVOICES.values()),
+        period_days=period_days,
+        as_of=today,
+    )
+
+    kpis = {
+        "inflows": inflows_h,
+        "obligated_outflows": obligated_h,
+        "pipeline_outflows": pipeline_h,
+        "held": held_amt,
+        "net": inflows_h - obligated_h,
+        "cash_at_risk": cash_at_risk,
+        "forecast_confidence": forecast.get("confidence_score"),
+        "ar_overall_exposure": ar_summary.get("overall_exposure"),
+        "ar_invoice_amount": ar_summary.get("total_invoice_amount"),
+        "wc_metrics": wc_metrics,
+    }
+
+    actions = build_and_rank_actions(
+        horizon_events=horizon_events,
+        held_events=held_all,
+        kpis=kpis,
+        series=series,
+        today=today,
+        horizon_days=days,
+        limit=8,
+    )
+
+    sc_label = scenario or "baseline"
+    baseline_net = None
+    if sc_label not in ("baseline", "none", None) or defer_ap_days > 0:
+        baseline_net = _baseline_net(days=days, today=today)
+
+    alerts = evaluate_alerts(
+        series=series,
+        kpis=kpis,
+        wc_metrics=wc_metrics,
+        held_events=held_all,
+        scenario=sc_label,
+        baseline_net=baseline_net,
+        today=today,
+        action_ids=[a["id"] for a in actions],
+    )
 
     return {
         "horizon_days": days,
         "as_of": today.isoformat(),
-        "scenario": scenario or "baseline",
+        "scenario": sc_label,
         "defer_ap_days": defer_ap_days,
-        "kpis": {
-            "inflows": inflows_h,
-            "obligated_outflows": obligated_h,
-            "pipeline_outflows": pipeline_h,
-            "held": held_amt,
-            "net": inflows_h - obligated_h,
-            "cash_at_risk": cash_at_risk,
-            "forecast_confidence": forecast.get("confidence_score"),
-            "ar_overall_exposure": ar_summary.get("overall_exposure"),
-            "ar_invoice_amount": ar_summary.get("total_invoice_amount"),
-        },
+        "kpis": kpis,
         "series": series,
-        "events": sorted(horizon_events + [e for e in held_all if e not in horizon_events], key=lambda e: (e["cash_date"], e["direction"])),
-        "actions_suggested": actions[:8],
+        "events": sorted(
+            horizon_events + [e for e in held_all if e not in horizon_events],
+            key=lambda e: (e["cash_date"], e["direction"]),
+        ),
+        "actions_suggested": actions,
+        "alerts": alerts,
         "ar_forecast_meta": {
             "trend_direction": forecast.get("trend_direction"),
             "projected_balance": forecast.get("projected_balance"),
             "event_count": len(forecast.get("cashflow_events") or []),
         },
     }
+
+
+def _baseline_net(days: int, today: date) -> float:
+    """Lightweight baseline net (no scenario / no defer) for stress comparison."""
+    try:
+        forecast_svc = ForecastService(get_duckdb())
+        forecast = forecast_svc.forecast(days=days, partner_code=None, scenario=None)
+    except Exception:
+        forecast = {"cashflow_events": []}
+    inflows = ar_events_from_forecast(forecast, COLLECT_PRIORITIES)
+    outflows = ap_events_from_invoices(list(INVOICES.values()), today)
+    end = today + timedelta(days=days - 1)
+    inflows_h = sum(
+        e["amount"]
+        for e in inflows
+        if today <= date.fromisoformat(e["cash_date"]) <= end
+    )
+    obligated_h = sum(
+        e["amount"]
+        for e in outflows
+        if e.get("certainty") == "obligated"
+        and today <= date.fromisoformat(e["cash_date"]) <= end
+    )
+    return float(inflows_h - obligated_h)

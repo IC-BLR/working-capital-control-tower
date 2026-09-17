@@ -4,12 +4,18 @@ import axios from "axios";
 import {
   ArrowDownRight,
   ArrowUpRight,
+  Bell,
+  Clock,
+  Info,
   Landmark,
   LogOut,
   PauseCircle,
   RefreshCw,
   ShieldAlert,
   Target,
+  Timer,
+  TrendingDown,
+  TrendingUp,
 } from "lucide-react";
 import ModuleSwitcher from "../components/ModuleSwitcher";
 import {
@@ -37,6 +43,24 @@ function formatMoney(value) {
   }).format(n);
 }
 
+function formatDays(value) {
+  if (value === null || value === undefined || Number.isNaN(Number(value))) return "N/A";
+  return `${Number(value).toFixed(1)} days`;
+}
+
+function deltaBadge(current, prior, invert = false) {
+  if (current == null || prior == null) return null;
+  const delta = Number(current) - Number(prior);
+  if (Math.abs(delta) < 0.05) return { text: "flat vs prior", tone: "slate", Icon: Clock };
+  // For DSO/CCC lower is better; for DPO higher can be better for cash (invert=true)
+  const improved = invert ? delta > 0 : delta < 0;
+  return {
+    text: `${delta > 0 ? "+" : ""}${delta.toFixed(1)} vs prior`,
+    tone: improved ? "emerald" : "rose",
+    Icon: improved ? TrendingDown : TrendingUp,
+  };
+}
+
 const SCENARIOS = [
   { id: "baseline", label: "Current plan (no changes)", defer: 0 },
   { id: "payment_delay_7", label: "Customers pay 7 days late", defer: 0 },
@@ -61,6 +85,7 @@ export default function CashCalendar() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [tab, setTab] = useState("inflows");
+  const [alertsOpen, setAlertsOpen] = useState(true);
 
   const deferAp = useMemo(() => SCENARIOS.find((s) => s.id === scenario)?.defer || 0, [scenario]);
 
@@ -116,16 +141,31 @@ export default function CashCalendar() {
   }
 
   const kpis = data?.kpis || {};
+  const wc = kpis.wc_metrics || {};
+  const alerts = data?.alerts || [];
+  const highAlerts = alerts.filter((a) => a.severity === "high");
   const events = data?.events || [];
   const inflows = events.filter((e) => e.direction === "inflow");
   const obligated = events.filter((e) => e.certainty === "obligated");
   const pipeline = events.filter((e) => e.certainty === "pipeline");
   const held = events.filter((e) => e.certainty === "held");
+  const actionsById = useMemo(() => {
+    const map = {};
+    (data?.actions_suggested || []).forEach((a) => {
+      map[a.id] = a;
+    });
+    return map;
+  }, [data?.actions_suggested]);
 
   const chartData = (data?.series || []).map((row) => ({
     ...row,
     label: row.date?.slice(5),
   }));
+
+  function scrollToAction(actionId) {
+    const el = document.getElementById(`wc-action-${actionId}`);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#edf5f8]">
@@ -200,8 +240,8 @@ export default function CashCalendar() {
                     onClick={() => setDays(h.days)}
                     title={h.hint}
                     className={`px-3 py-1.5 text-sm rounded-lg transition-colors border ${days === h.days
-                        ? "bg-gradient-to-r from-sky-600 to-cyan-600 text-white border-transparent shadow-md shadow-sky-500/25"
-                        : "border-transparent text-slate-700 hover:bg-sky-50"
+                      ? "bg-gradient-to-r from-sky-600 to-cyan-600 text-white border-transparent shadow-md shadow-sky-500/25"
+                      : "border-transparent text-slate-700 hover:bg-sky-50"
                       }`}
                   >
                     {h.label}
@@ -271,6 +311,87 @@ export default function CashCalendar() {
           />
         </div>
 
+        <div className="grid gap-4 sm:grid-cols-3">
+          <WcMetricCard
+            label="DSO — Days Sales Outstanding"
+            hint="Average days to collect from customers"
+            value={formatDays(wc.dso)}
+            delta={deltaBadge(wc.dso, wc.prior?.dso, false)}
+            icon={Timer}
+            assumptions={wc.assumptions}
+          />
+          <WcMetricCard
+            label="DPO — Days Payable Outstanding"
+            hint="Average days to pay suppliers"
+            value={formatDays(wc.dpo)}
+            delta={deltaBadge(wc.dpo, wc.prior?.dpo, true)}
+            icon={Clock}
+            assumptions={wc.assumptions}
+          />
+          <WcMetricCard
+            label="CCC — Cash Conversion Cycle"
+            hint="Days cash is locked in operations (DIO N/A)"
+            value={formatDays(wc.ccc)}
+            delta={deltaBadge(wc.ccc, wc.prior?.ccc, false)}
+            icon={Landmark}
+            assumptions={[
+              ...(wc.assumptions || []),
+              wc.dio == null ? "DIO not applicable — CCC = DSO − DPO" : null,
+            ].filter(Boolean)}
+            emphasize
+          />
+        </div>
+
+        {alerts.length > 0 && (
+          <div
+            className={`rounded-2xl border shadow-md backdrop-blur-md overflow-hidden ${highAlerts.length
+                ? "border-rose-300/80 bg-gradient-to-r from-rose-50/95 via-amber-50/80 to-white/90"
+                : "border-amber-200/80 bg-gradient-to-r from-amber-50/90 to-white/90"
+              }`}
+          >
+            <button
+              type="button"
+              className="w-full flex items-center justify-between gap-3 px-4 md:px-6 py-3 text-left"
+              onClick={() => setAlertsOpen((v) => !v)}
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <span
+                  className={`rounded-xl p-2 ${highAlerts.length ? "bg-rose-500 text-white" : "bg-amber-500 text-white"
+                    }`}
+                >
+                  <Bell className="w-4 h-4" />
+                </span>
+                <div className="min-w-0">
+                  <p className="font-semibold text-slate-900">
+                    Cash alerts · {alerts.length}
+                    {highAlerts.length ? ` · ${highAlerts.length} high` : ""}
+                  </p>
+                  <p className="text-xs text-slate-500 truncate">
+                    Threshold breaches and scenario stress on the current horizon
+                  </p>
+                </div>
+              </div>
+              <span className="text-xs font-medium text-slate-500 shrink-0">
+                {alertsOpen ? "Hide" : "Show"}
+              </span>
+            </button>
+            {alertsOpen && (
+              <div className="px-4 md:px-6 pb-4 space-y-2">
+                {alerts.map((a) => (
+                  <AlertRow
+                    key={a.id}
+                    alert={a}
+                    onFix={(id) => {
+                      scrollToAction(id);
+                    }}
+                    hasLinkedAction={(a.suggested_action_ids || []).some((id) => actionsById[id])}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="rounded-2xl border border-sky-200/80 bg-white/75 shadow-lg shadow-sky-900/5 backdrop-blur-md overflow-hidden">
           <div className="px-4 md:px-6 py-3 border-b border-sky-100 bg-gradient-to-r from-sky-600/10 via-cyan-500/5 to-emerald-500/10">
             <h2 className="font-semibold text-slate-900">Daily cash trajectory</h2>
@@ -337,8 +458,8 @@ export default function CashCalendar() {
                     type="button"
                     onClick={() => setTab(id)}
                     className={`px-3 py-1.5 text-sm rounded-xl border transition-colors ${active
-                        ? `${activeStyles[tone]} font-semibold shadow-sm`
-                        : "bg-white/50 text-slate-600 border-slate-200 hover:bg-white"
+                      ? `${activeStyles[tone]} font-semibold shadow-sm`
+                      : "bg-white/50 text-slate-600 border-slate-200 hover:bg-white"
                       }`}
                   >
                     {label}
@@ -365,7 +486,7 @@ export default function CashCalendar() {
             <div>
               <h2 className="font-semibold text-slate-900">Suggested actions</h2>
               <p className="text-xs text-slate-500 mt-1">
-                Holds and collect priorities update the calendar immediately.
+                Ranked by cash impact. Holds and collect priorities update the calendar immediately.
               </p>
             </div>
             <div className="space-y-3">
@@ -375,14 +496,20 @@ export default function CashCalendar() {
               {(data?.actions_suggested || []).map((a) => (
                 <div
                   key={a.id}
-                  className="rounded-xl border border-white bg-white/90 p-3 space-y-2 shadow-sm ring-1 ring-sky-100/80"
+                  id={`wc-action-${a.id}`}
+                  className="rounded-xl border border-white bg-white/90 p-3 space-y-2 shadow-sm ring-1 ring-sky-100/80 scroll-mt-28"
                 >
                   <div className="flex items-start gap-2">
+                    {a.rank != null && (
+                      <span className="shrink-0 w-7 h-7 rounded-lg bg-slate-900 text-white text-xs font-bold flex items-center justify-center">
+                        #{a.rank}
+                      </span>
+                    )}
                     {a.label?.includes("Hold") ? (
                       <span className="rounded-lg bg-rose-50 p-1.5">
                         <PauseCircle className="w-4 h-4 text-rose-600" />
                       </span>
-                    ) : a.label?.includes("collect") ? (
+                    ) : a.label?.includes("collect") || a.label?.includes("Collect") ? (
                       <span className="rounded-lg bg-emerald-50 p-1.5">
                         <Target className="w-4 h-4 text-emerald-600" />
                       </span>
@@ -391,9 +518,12 @@ export default function CashCalendar() {
                         <ShieldAlert className="w-4 h-4 text-amber-600" />
                       </span>
                     )}
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-sm font-medium text-slate-900">{a.label}</p>
                       <p className="text-xs text-slate-500">{a.detail}</p>
+                      {a.cash_impact_label && (
+                        <p className="text-xs text-sky-800 mt-1 font-medium">{a.cash_impact_label}</p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -459,6 +589,72 @@ function Kpi({ label, value, icon: Icon, tone, hint }) {
       <p className="text-xs uppercase tracking-wide text-slate-500 font-medium">{label}</p>
       <p className={`text-xl font-bold mt-1 break-words ${t.value}`}>{value}</p>
       {hint && <p className="text-xs text-slate-500 mt-1">{hint}</p>}
+    </div>
+  );
+}
+
+function WcMetricCard({ label, hint, value, delta, icon: Icon, assumptions, emphasize }) {
+  const tip = (assumptions || []).join(" · ");
+  return (
+    <div
+      className={`rounded-2xl border p-5 shadow-md bg-gradient-to-br ${emphasize
+          ? "from-sky-100/95 via-cyan-50 to-white border-sky-300/80 shadow-sky-900/10"
+          : "from-white via-slate-50 to-white border-slate-200/80"
+        }`}
+      title={tip}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-md ${emphasize ? "bg-sky-600 text-white" : "bg-slate-800 text-white"
+          }`}>
+          <Icon className="w-5 h-5" />
+        </div>
+        {delta && (
+          <span
+            className={`inline-flex items-center gap-1 text-[11px] font-medium rounded-full px-2 py-0.5 border ${delta.tone === "emerald"
+                ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                : delta.tone === "rose"
+                  ? "bg-rose-50 text-rose-800 border-rose-200"
+                  : "bg-slate-50 text-slate-600 border-slate-200"
+              }`}
+          >
+            <delta.Icon className="w-3 h-3" />
+            {delta.text}
+          </span>
+        )}
+      </div>
+      <p className="text-xs uppercase tracking-wide text-slate-500 font-medium mt-3">{label}</p>
+      <p className="text-2xl font-bold mt-1 text-slate-900">{value}</p>
+      <p className="text-xs text-slate-500 mt-1 flex items-start gap-1">
+        <Info className="w-3 h-3 mt-0.5 shrink-0" />
+        <span>{hint}</span>
+      </p>
+    </div>
+  );
+}
+
+function AlertRow({ alert, onFix, hasLinkedAction }) {
+  const severityStyles = {
+    high: "border-rose-200 bg-rose-50/80 text-rose-950",
+    medium: "border-amber-200 bg-amber-50/70 text-amber-950",
+    info: "border-sky-200 bg-sky-50/70 text-sky-950",
+    low: "border-slate-200 bg-white text-slate-800",
+  };
+  const style = severityStyles[alert.severity] || severityStyles.info;
+  const fixId = (alert.suggested_action_ids || [])[0];
+  return (
+    <div className={`rounded-xl border px-3 py-2.5 flex flex-wrap items-start justify-between gap-2 ${style}`}>
+      <div className="min-w-0">
+        <p className="text-sm font-semibold">
+          <span className="uppercase text-[10px] tracking-wider opacity-70 mr-2">{alert.severity}</span>
+          {alert.title}
+        </p>
+        <p className="text-xs opacity-80 mt-0.5">{alert.detail}</p>
+      </div>
+      {hasLinkedAction && fixId && (
+        <Button size="sm" variant="outline" className="bg-white/80 shrink-0" onClick={() => onFix(fixId)}>
+          Suggested fix
+        </Button>
+      )}
     </div>
   );
 }
