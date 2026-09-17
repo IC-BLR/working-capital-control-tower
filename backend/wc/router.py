@@ -7,8 +7,10 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
 from ap.store import INVOICES
+from ar.server import get_duckdb
 from wc.calendar_service import build_calendar
 from wc.cash_events import ensure_ap_wc_fields
+from wc.metrics import compute_wc_metrics
 from wc.store import COLLECT_PRIORITIES
 
 router = APIRouter()
@@ -35,8 +37,9 @@ def calendar(
     days: int = Query(30, ge=1, le=365),
     scenario: str | None = Query(None),
     defer_ap_days: int = Query(0, ge=0, le=90),
+    period_days: int = Query(90, ge=7, le=365),
 ):
-    """Dated AR inflows + AP outflows → net working-capital calendar."""
+    """Dated AR inflows + AP outflows → net working-capital calendar (+ metrics & alerts)."""
     # Map friendly WC scenario names onto AR forecast scenarios
     ar_scenario = scenario
     if scenario == "ar_delay_7":
@@ -51,7 +54,48 @@ def calendar(
         if defer_ap_days == 0:
             defer_ap_days = 7 if scenario == "defer_ap_7" else 14
 
-    return build_calendar(days=days, scenario=ar_scenario, defer_ap_days=defer_ap_days)
+    return build_calendar(
+        days=days,
+        scenario=ar_scenario,
+        defer_ap_days=defer_ap_days,
+        period_days=period_days,
+    )
+
+
+@router.get("/metrics")
+def metrics(period_days: int = Query(90, ge=7, le=365)):
+    """DSO / DPO / CCC (DIO N/A) for the rolling period."""
+    try:
+        db = get_duckdb()
+    except Exception:
+        db = None
+    return compute_wc_metrics(
+        db,
+        ap_invoices=list(INVOICES.values()),
+        period_days=period_days,
+    )
+
+
+@router.get("/alerts")
+def alerts(
+    days: int = Query(30, ge=1, le=365),
+    scenario: str | None = Query(None),
+    defer_ap_days: int = Query(0, ge=0, le=90),
+    period_days: int = Query(90, ge=7, le=365),
+):
+    """Cash alerts derived from the current calendar snapshot."""
+    payload = calendar(
+        days=days,
+        scenario=scenario,
+        defer_ap_days=defer_ap_days,
+        period_days=period_days,
+    )
+    return {
+        "as_of": payload.get("as_of"),
+        "horizon_days": payload.get("horizon_days"),
+        "scenario": payload.get("scenario"),
+        "alerts": payload.get("alerts") or [],
+    }
 
 
 @router.post("/ap/{invoice_id}/hold")
