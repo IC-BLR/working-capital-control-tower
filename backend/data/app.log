@@ -6701,3 +6701,35 @@ Error: max retries exceeded: EOF
 2026-10-06 17:05:09 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
 2026-10-06 17:05:09 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
 2026-10-06 17:05:09 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:05:52 - INFO - ar.server - shutdown_ar:114 - AR shutdown complete
+2026-10-06 17:09:53 - INFO - ar.server - <module>:73 - AR module logging initialized. Log file: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/data/app.log
+2026-10-06 17:09:53 - INFO - ar.db.initializer - initialize:159 - Initializing database: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:09:53 - INFO - ar.db.initializer - initialize:165 - Database file exists - opening existing database
+2026-10-06 17:09:53 - INFO - ar.db.initializer - initialize:173 - Running migrations...
+2026-10-06 17:09:53 - INFO - ar.db.migration_manager - _load_migration_files:65 - Found 2 migration files
+2026-10-06 17:09:53 - INFO - ar.db.migration_manager - run_migrations:148 - All migrations up to date
+2026-10-06 17:09:53 - INFO - ar.db.initializer - initialize:178 - ✓ All migrations up to date
+2026-10-06 17:09:53 - INFO - ar.db.initializer - _should_seed:140 - Database has 778 records (>= 100) - skipping seed
+2026-10-06 17:09:53 - INFO - ar.db.initializer - initialize:186 - ✓ Database seeding skipped
+2026-10-06 17:09:53 - INFO - ar.db.initializer - initialize:188 - ✓ Database initialization complete
+2026-10-06 17:09:53 - INFO - ar.server - startup_ar:99 - DuckDB initialized at /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:09:53 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:09:53 - INFO - ar.server - startup_ar:105 - AR API routes registered
+2026-10-06 17:09:54 - INFO - ar.server - <module>:73 - AR module logging initialized. Log file: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/data/app.log
+2026-10-06 17:09:54 - INFO - ar.db.initializer - initialize:159 - Initializing database: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:09:54 - INFO - ar.db.initializer - initialize:165 - Database file exists - opening existing database
+2026-10-06 17:09:54 - INFO - watchfiles.main - _log_changes:309 - 3 changes detected
+2026-10-06 17:10:08 - INFO - ar.server - <module>:73 - AR module logging initialized. Log file: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/data/app.log
+2026-10-06 17:10:08 - INFO - ar.db.initializer - initialize:159 - Initializing database: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:10:08 - INFO - ar.db.initializer - initialize:165 - Database file exists - opening existing database
+2026-10-06 17:10:08 - INFO - ar.db.initializer - initialize:173 - Running migrations...
+2026-10-06 17:10:08 - INFO - ar.db.migration_manager - _load_migration_files:65 - Found 2 migration files
+2026-10-06 17:10:08 - INFO - ar.db.migration_manager - run_migrations:148 - All migrations up to date
+2026-10-06 17:10:08 - INFO - ar.db.initializer - initialize:178 - ✓ All migrations up to date
+2026-10-06 17:10:08 - INFO - ar.db.initializer - _should_seed:140 - Database has 778 records (>= 100) - skipping seed
+2026-10-06 17:10:08 - INFO - ar.db.initializer - initialize:186 - ✓ Database seeding skipped
+2026-10-06 17:10:08 - INFO - ar.db.initializer - initialize:188 - ✓ Database initialization complete
+2026-10-06 17:10:08 - INFO - ar.server - startup_ar:99 - DuckDB initialized at /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:10:08 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:10:08 - INFO - ar.server - startup_ar:105 - AR API routes registered
+2026-10-06 17:10:17 - INFO - ar.server - shutdown_ar:114 - AR shutdown complete

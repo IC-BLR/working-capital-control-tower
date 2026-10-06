@@ -402,7 +402,7 @@ No autonomous multi-agent orchestration — feature-level AI assists inside AR/A
 | `OLLAMA_BASE_URL` | Ollama server | `http://localhost:11434` (often commented in `.env.example`) |
 | `LLM_TIMEOUT`, `LLM_TEMPERATURE` | LLM behavior | — |
 | `GEMINI_API_KEY`, `OPENAI_API_KEY` | Cloud LLMs | OpenAI often commented |
-| `CORS_ORIGINS` | Frontend origins | localhost:3064 |
+| `CORS_ORIGINS` | Frontend origins | localhost:3064 and assets.indiainnovationcentre.com |
 | `WC_ALERT_CASH_AT_RISK` | Cash-at-risk alert threshold | `1000000` |
 | `WC_ALERT_HOLD_AGING_DAYS` | Aged-hold alert | `7` |
 | `WC_ALERT_CLUSTER_DAYS` | Outflow cluster window | `7` |

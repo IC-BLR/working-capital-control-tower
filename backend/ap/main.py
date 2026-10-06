@@ -14,7 +14,11 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3064", "http://127.0.0.1:3064"],
+    allow_origins=[
+        "http://localhost:3064",
+        "http://127.0.0.1:3064",
+        "https://assets.indiainnovationcentre.com",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -66,7 +66,11 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=os.environ.get(
         "CORS_ORIGINS",
-        "http://localhost:3064,http://127.0.0.1:3064",
+        (
+            "http://localhost:3064,"
+            "http://127.0.0.1:3064,"
+            "https://assets.indiainnovationcentre.com"
+        ),
     ).split(","),
     allow_credentials=True,
     allow_methods=["*"],
