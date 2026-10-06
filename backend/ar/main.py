@@ -1,4 +1,6 @@
 """Legacy AR entrypoint — prefer backend/main.py for the merged POC."""
+import os
+
 import uvicorn
 from ar.server import api_router, startup_ar, shutdown_ar
 from fastapi import FastAPI
@@ -18,4 +20,9 @@ async def _shutdown():
 
 
 if __name__ == "__main__":
-    uvicorn.run("ar.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(
+        "ar.main:app",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", "8064")),
+        reload=True,
+    )

@@ -85,8 +85,9 @@ Alert thresholds (env): `WC_ALERT_CASH_AT_RISK`, `WC_ALERT_HOLD_AGING_DAYS`, `WC
 
 Also used on the frontend: `sonner`, `lucide-react`, `xlsx`, `file-saver`, `jspdf`, `html2canvas`, `react-markdown`.
 
-- Frontend port: **3000**
-- Backend port: **8000**
+- Frontend port: **3064**
+- Frontend base path: **`/cct`**
+- Backend port: **8064**
 
 ---
 
@@ -97,7 +98,7 @@ working-capital-control-tower/
   README.md
   docs/
     APP_SUMMARY.md          # this file
-  frontend/                 # CRA React app (port 3000)
+  frontend/                 # CRA React app (port 3064)
     src/
       App.js                # Top-level routes
       config.js             # AR/AP/WC API bases
@@ -107,7 +108,7 @@ working-capital-control-tower/
       components/           # Layout, ModuleSwitcher, shadcn-style UI
     public/
     plugins/                # visual-edits, health-check (CRA plugins)
-  backend/                  # FastAPI (port 8000)
+  backend/                  # FastAPI (port 8064)
     main.py                 # Single entrypoint mounting AR/AP/WC
     ar/                     # AR Sensei → /api/ar/*
       endpoints/routes.py
@@ -205,7 +206,7 @@ Login (AP demo auth)
 
 ## API overview
 
-Base: `http://localhost:8000` — OpenAPI at `/docs`. Health: `/api/health`.
+Base: `http://localhost:8064` — OpenAPI at `/docs`. Health: `/api/health`.
 
 ### Working Capital — `/api/wc`
 
@@ -315,7 +316,7 @@ Currency: AR/WC UI formats **INR**; some AP demo invoices use **USD**.
 - Frontend `RequireAuth` gates all routes except `/login`.
 - AP approve/advance/exception endpoints check `Authorization: Bearer` and **approvalRole**.
 - AR and WC APIs are **not** token-protected at the router level.
-- CORS from `CORS_ORIGINS` (default localhost:3000).
+- CORS from `CORS_ORIGINS` (default localhost:3064).
 - **Not production-grade security.**
 
 ### Demo users
@@ -339,14 +340,14 @@ Password for all: `Demo@123`
 cd backend
 source .venv/bin/activate
 pip install -r requirements.txt   # if needed
-python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+python -m uvicorn main:app --reload --host 0.0.0.0 --port 8064
 ```
 
-- Health: http://localhost:8000/api/health
-- WC calendar: http://localhost:8000/api/wc/calendar?days=30
-- WC metrics: http://localhost:8000/api/wc/metrics?period_days=90
-- WC alerts: http://localhost:8000/api/wc/alerts?days=30
-- Docs: http://localhost:8000/docs
+- Health: http://localhost:8064/api/health
+- WC calendar: http://localhost:8064/api/wc/calendar?days=30
+- WC metrics: http://localhost:8064/api/wc/metrics?period_days=90
+- WC alerts: http://localhost:8064/api/wc/alerts?days=30
+- Docs: http://localhost:8064/docs
 
 ### Frontend
 
@@ -356,10 +357,12 @@ yarn install
 yarn start
 ```
 
+Open `http://localhost:3064/cct/`.
+
 ```text
-REACT_APP_AR_API_BASE=http://localhost:8000/api/ar
-REACT_APP_AP_API_BASE=http://localhost:8000/api/ap
-REACT_APP_WC_API_BASE=http://localhost:8000/api/wc
+REACT_APP_AR_API_BASE=http://localhost:8064/api/ar
+REACT_APP_AP_API_BASE=http://localhost:8064/api/ap
+REACT_APP_WC_API_BASE=http://localhost:8064/api/wc
 ```
 
 ### Demo walkthrough
@@ -399,7 +402,7 @@ No autonomous multi-agent orchestration — feature-level AI assists inside AR/A
 | `OLLAMA_BASE_URL` | Ollama server | `http://localhost:11434` (often commented in `.env.example`) |
 | `LLM_TIMEOUT`, `LLM_TEMPERATURE` | LLM behavior | — |
 | `GEMINI_API_KEY`, `OPENAI_API_KEY` | Cloud LLMs | OpenAI often commented |
-| `CORS_ORIGINS` | Frontend origins | localhost:3000 |
+| `CORS_ORIGINS` | Frontend origins | localhost:3064 |
 | `WC_ALERT_CASH_AT_RISK` | Cash-at-risk alert threshold | `1000000` |
 | `WC_ALERT_HOLD_AGING_DAYS` | Aged-hold alert | `7` |
 | `WC_ALERT_CLUSTER_DAYS` | Outflow cluster window | `7` |

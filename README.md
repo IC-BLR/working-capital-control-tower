@@ -27,8 +27,8 @@ Alert thresholds can be tuned via env: `WC_ALERT_CASH_AT_RISK`, `WC_ALERT_HOLD_A
 
 ```text
 working-capital-control-tower/
-  frontend/     # CRA (port 3000)
-  backend/      # FastAPI (port 8000)
+  frontend/     # CRA (port 3064)
+  backend/      # FastAPI (port 8064)
     ar/         → /api/ar/*
     ap/         → /api/ap/*
     wc/         → /api/wc/*   (cash spine)
@@ -41,14 +41,14 @@ working-capital-control-tower/
 cd backend
 source .venv/bin/activate
 pip install -r requirements.txt   # if needed
-python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+python -m uvicorn main:app --reload --host 0.0.0.0 --port 8064
 ```
 
-- Health: http://localhost:8000/api/health  
-- WC calendar: http://localhost:8000/api/wc/calendar?days=30  
-- WC metrics: http://localhost:8000/api/wc/metrics?period_days=90  
-- WC alerts: http://localhost:8000/api/wc/alerts?days=30  
-- Docs: http://localhost:8000/docs  
+- Health: http://localhost:8064/api/health
+- WC calendar: http://localhost:8064/api/wc/calendar?days=30
+- WC metrics: http://localhost:8064/api/wc/metrics?period_days=90
+- WC alerts: http://localhost:8064/api/wc/alerts?days=30
+- Docs: http://localhost:8064/docs
 
 ## Run frontend
 
@@ -58,10 +58,12 @@ yarn install
 yarn start
 ```
 
+Open http://localhost:3064/cct/ in your browser.
+
 ```text
-REACT_APP_AR_API_BASE=http://localhost:8000/api/ar
-REACT_APP_AP_API_BASE=http://localhost:8000/api/ap
-REACT_APP_WC_API_BASE=http://localhost:8000/api/wc
+REACT_APP_AR_API_BASE=http://localhost:8064/api/ar
+REACT_APP_AP_API_BASE=http://localhost:8064/api/ap
+REACT_APP_WC_API_BASE=http://localhost:8064/api/wc
 ```
 
 ## Demo

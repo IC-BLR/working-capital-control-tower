@@ -6495,3 +6495,209 @@ Error: max retries exceeded: EOF
 2026-09-17 14:04:32 - INFO - ar.services.forecast_service - forecast:280 - Fetched 24 outstanding invoices for forecast
 2026-09-17 14:04:32 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
 2026-09-17 14:51:33 - INFO - ar.server - shutdown_ar:114 - AR shutdown complete
+2026-10-06 16:56:29 - INFO - ar.server - <module>:73 - AR module logging initialized. Log file: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/data/app.log
+2026-10-06 16:56:29 - INFO - ar.db.initializer - initialize:159 - Initializing database: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 16:56:29 - INFO - ar.db.initializer - initialize:167 - Database file does not exist - will create new database
+2026-10-06 16:56:29 - INFO - ar.db.initializer - initialize:173 - Running migrations...
+2026-10-06 16:56:29 - INFO - ar.db.migration_manager - _load_migration_files:65 - Found 2 migration files
+2026-10-06 16:56:29 - INFO - ar.db.migration_manager - run_migrations:104 - Applying migration: 001_initial_schema
+2026-10-06 16:56:29 - INFO - ar.db.migration_manager - run_migrations:141 - ✓ Migration 001_initial_schema applied successfully
+2026-10-06 16:56:29 - INFO - ar.db.migration_manager - run_migrations:104 - Applying migration: 002_create_views
+2026-10-06 16:56:29 - INFO - ar.db.migration_manager - run_migrations:141 - ✓ Migration 002_create_views applied successfully
+2026-10-06 16:56:29 - INFO - ar.db.migration_manager - run_migrations:150 - Applied 2 migration(s)
+2026-10-06 16:56:29 - INFO - ar.db.initializer - initialize:176 - ✓ Applied 2 migration(s)
+2026-10-06 16:56:29 - INFO - ar.db.initializer - _should_seed:143 - Database has 0 records (< 100) - will seed
+2026-10-06 16:56:29 - INFO - ar.db.initializer - initialize:182 - Seeding database with synthetic data...
+2026-10-06 16:56:29 - INFO - ar.db.seed_data - seed:188 - Generating 10 partners with 5 invoices each
+2026-10-06 16:56:29 - INFO - ar.db.seed_data - generate_payment_allocations:95 - Generating synthetic data: 10 partners, 5 invoices each
+2026-10-06 16:56:29 - INFO - ar.db.seed_data - generate_payment_allocations:166 - Generated 778 payment allocation records
+2026-10-06 16:56:29 - INFO - ar.db.seed_data - seed:224 - ✓ Seeded 778 payment allocation records
+2026-10-06 16:56:29 - INFO - ar.db.initializer - initialize:184 - ✓ Database seeding complete
+2026-10-06 16:56:29 - INFO - ar.db.initializer - initialize:188 - ✓ Database initialization complete
+2026-10-06 16:56:29 - INFO - ar.server - startup_ar:99 - DuckDB initialized at /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 16:56:29 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 16:56:29 - INFO - ar.server - startup_ar:105 - AR API routes registered
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 16:56:33 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 16:56:33 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 16:56:33 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 16:56:33 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 16:56:33 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:35 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 16:56:35 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:35 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 16:56:35 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:35 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 16:56:35 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 16:56:37 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 16:56:37 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 16:56:38 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 16:56:38 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:38 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 16:56:38 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 16:56:38 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:38 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 16:56:43 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 16:56:43 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:43 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 16:56:43 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 16:56:43 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:43 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 16:56:44 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 16:56:44 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 16:56:44 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 16:56:44 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 16:56:44 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:00:19 - INFO - ar.server - shutdown_ar:114 - AR shutdown complete
+2026-10-06 17:00:20 - INFO - ar.server - <module>:73 - AR module logging initialized. Log file: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/data/app.log
+2026-10-06 17:00:20 - INFO - ar.db.initializer - initialize:159 - Initializing database: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:00:20 - INFO - ar.db.initializer - initialize:165 - Database file exists - opening existing database
+2026-10-06 17:00:20 - INFO - ar.db.initializer - initialize:173 - Running migrations...
+2026-10-06 17:00:20 - INFO - ar.db.migration_manager - _load_migration_files:65 - Found 2 migration files
+2026-10-06 17:00:20 - INFO - ar.db.migration_manager - run_migrations:148 - All migrations up to date
+2026-10-06 17:00:20 - INFO - ar.db.initializer - initialize:178 - ✓ All migrations up to date
+2026-10-06 17:00:20 - INFO - ar.db.initializer - _should_seed:140 - Database has 778 records (>= 100) - skipping seed
+2026-10-06 17:00:20 - INFO - ar.db.initializer - initialize:186 - ✓ Database seeding skipped
+2026-10-06 17:00:20 - INFO - ar.db.initializer - initialize:188 - ✓ Database initialization complete
+2026-10-06 17:00:20 - INFO - ar.server - startup_ar:99 - DuckDB initialized at /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:00:20 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:00:20 - INFO - ar.server - startup_ar:105 - AR API routes registered
+2026-10-06 17:01:22 - INFO - ar.server - <module>:73 - AR module logging initialized. Log file: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/data/app.log
+2026-10-06 17:01:22 - INFO - ar.db.initializer - initialize:159 - Initializing database: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:01:22 - INFO - ar.db.initializer - initialize:165 - Database file exists - opening existing database
+2026-10-06 17:02:34 - INFO - ar.server - shutdown_ar:114 - AR shutdown complete
+2026-10-06 17:02:39 - INFO - ar.server - <module>:73 - AR module logging initialized. Log file: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/data/app.log
+2026-10-06 17:02:39 - INFO - ar.db.initializer - initialize:159 - Initializing database: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:02:39 - INFO - ar.db.initializer - initialize:165 - Database file exists - opening existing database
+2026-10-06 17:02:39 - INFO - ar.db.initializer - initialize:173 - Running migrations...
+2026-10-06 17:02:39 - INFO - ar.db.migration_manager - _load_migration_files:65 - Found 2 migration files
+2026-10-06 17:02:39 - INFO - ar.db.migration_manager - run_migrations:148 - All migrations up to date
+2026-10-06 17:02:39 - INFO - ar.db.initializer - initialize:178 - ✓ All migrations up to date
+2026-10-06 17:02:39 - INFO - ar.db.initializer - _should_seed:140 - Database has 778 records (>= 100) - skipping seed
+2026-10-06 17:02:39 - INFO - ar.db.initializer - initialize:186 - ✓ Database seeding skipped
+2026-10-06 17:02:39 - INFO - ar.db.initializer - initialize:188 - ✓ Database initialization complete
+2026-10-06 17:02:39 - INFO - ar.server - startup_ar:99 - DuckDB initialized at /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:02:39 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:02:39 - INFO - ar.server - startup_ar:105 - AR API routes registered
+2026-10-06 17:02:39 - INFO - ar.server - shutdown_ar:114 - AR shutdown complete
+2026-10-06 17:02:45 - INFO - ar.server - <module>:73 - AR module logging initialized. Log file: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/data/app.log
+2026-10-06 17:02:45 - INFO - ar.db.initializer - initialize:159 - Initializing database: /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:02:45 - INFO - ar.db.initializer - initialize:165 - Database file exists - opening existing database
+2026-10-06 17:02:45 - INFO - ar.db.initializer - initialize:173 - Running migrations...
+2026-10-06 17:02:45 - INFO - ar.db.migration_manager - _load_migration_files:65 - Found 2 migration files
+2026-10-06 17:02:45 - INFO - ar.db.migration_manager - run_migrations:148 - All migrations up to date
+2026-10-06 17:02:45 - INFO - ar.db.initializer - initialize:178 - ✓ All migrations up to date
+2026-10-06 17:02:45 - INFO - ar.db.initializer - _should_seed:140 - Database has 778 records (>= 100) - skipping seed
+2026-10-06 17:02:45 - INFO - ar.db.initializer - initialize:186 - ✓ Database seeding skipped
+2026-10-06 17:02:45 - INFO - ar.db.initializer - initialize:188 - ✓ Database initialization complete
+2026-10-06 17:02:45 - INFO - ar.server - startup_ar:99 - DuckDB initialized at /Users/a10354786/nttdata/workspace/working-capital-control-tower/backend/payment_allocation.duckdb
+2026-10-06 17:02:45 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:02:45 - INFO - ar.server - startup_ar:105 - AR API routes registered
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:02:51 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:02:51 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:02:51 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:02:51 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:02:51 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:02:53 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 17:02:53 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:02:53 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 17:02:53 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:02:53 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 17:02:53 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 17:02:57 - INFO - ar.endpoints.routes - chatbot_query:351 - Processing chatbot query: What will be the forecast after 60 days?
+2026-10-06 17:02:57 - INFO - ar.services.chatbot_service - process_query:133 - Detected intent: forecast, params: {'raw_match': ('60',), 'query': 'what will be the forecast after 60 days', 'days': 60}
+2026-10-06 17:02:57 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:02:57 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 60 days, partner_code=None, scenario=None
+2026-10-06 17:02:57 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:02:57 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:02:57 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:03:00 - INFO - ar.endpoints.routes - chatbot_query:351 - Processing chatbot query: Show 90 day forecast in recession scenario
+2026-10-06 17:03:00 - INFO - ar.services.chatbot_service - process_query:133 - Detected intent: forecast, params: {'raw_match': (), 'query': 'show 90 day forecast in recession scenario', 'days': 90}
+2026-10-06 17:03:00 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:03:00 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 90 days, partner_code=None, scenario=None
+2026-10-06 17:03:00 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:03:00 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:03:00 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:03:02 - INFO - ar.endpoints.routes - chatbot_query:351 - Processing chatbot query: Show high risk partners
+2026-10-06 17:03:02 - INFO - ar.services.chatbot_service - process_query:133 - Detected intent: risk_partners, params: {'raw_match': ('high',), 'query': 'show high risk partners'}
+2026-10-06 17:03:05 - INFO - ar.endpoints.routes - chatbot_query:351 - Processing chatbot query: What is the total outstanding amount?
+2026-10-06 17:03:05 - INFO - ar.services.chatbot_service - process_query:133 - Detected intent: total_outstanding, params: {'raw_match': (), 'query': 'what is the total outstanding amount'}
+2026-10-06 17:03:05 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:03:10 - INFO - ar.endpoints.routes - chatbot_query:351 - Processing chatbot query: explain
+2026-10-06 17:03:10 - INFO - ar.services.chatbot_service - process_query:133 - Detected intent: unknown, params: {'query': 'explain'}
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:04:51 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:04:51 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:04:51 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:04:51 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:04:51 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:04:53 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 17:04:53 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:04:53 - INFO - ar.endpoints.routes - summary:81 - Getting summary for period: 30d
+2026-10-06 17:04:53 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:04:53 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 17:04:53 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 17:04:54 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 17:04:54 - INFO - ar.endpoints.routes - partner_level_insights:125 - Getting partner-level risk insights
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:04:56 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:04:56 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:04:56 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:04:56 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:04:56 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:05:09 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:05:09 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - __init__:22 - Initializing ForecastService with DuckDB connection
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - forecast:230 - Generating cashflow forecast for next 30 days, partner_code=None, scenario=None
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - _calculate_partner_delays:26 - Calculating partner payment delays from historical data
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - forecast:280 - Fetched 29 outstanding invoices for forecast
+2026-10-06 17:05:09 - INFO - ar.services.forecast_service - _get_scenario_description:499 - Getting description for scenario: None
+2026-10-06 17:05:09 - INFO - ar.services.services - __init__:54 - Initializing APIServices with DuckDB connection getter
+2026-10-06 17:05:09 - INFO - ar.services.services - get_summary:156 - Retrieving aggregate summary data

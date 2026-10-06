@@ -26,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL || "/cct"}>
           <Routes>
             <Route path="/login" element={<Login />} />
 
