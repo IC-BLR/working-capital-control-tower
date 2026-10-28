@@ -4,14 +4,12 @@ import {
   BookOpenCheck,
   FileText,
   LayoutDashboard,
-  LogOut,
   PauseCircle,
   PlayCircle,
   Radio,
   RefreshCw,
   Scale,
   UploadCloud,
-  UserRound,
 } from "lucide-react";
 import { api } from "./api/client";
 import Dashboard from "./screens/Dashboard";
@@ -19,9 +17,11 @@ import Intake from "./screens/Intake";
 import InvoiceApproval from "./screens/InvoiceApproval";
 import Regulations from "./screens/Regulations";
 import Records from "./screens/Records";
-import BrandLockup from "./components/BrandLockup";
-import ModuleSwitcher from "../components/ModuleSwitcher";
 import { useAuth } from "../auth/AuthContext";
+import AppHeader from "../components/AppHeader";
+import AppSidebar from "../components/AppSidebar";
+import PageHeader from "../components/PageHeader";
+import { Button } from "../components/ui/button";
 import "./styles.css";
 
 export default function ApApp() {
@@ -42,6 +42,8 @@ export default function ApApp() {
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [autoFeed, setAutoFeed] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   async function handleLogout() {
     await sharedLogout();
@@ -113,74 +115,98 @@ export default function ApApp() {
   if (!isAuthenticated || !user) return null;
 
   const nav = [
-    ["dashboard", LayoutDashboard, "Control Tower"],
-    ["intake", UploadCloud, "Document Intake"],
-    ["invoices", FileText, "Invoice Approval"],
-    ["regulations", Scale, "Regulations"],
-    ["records", BookOpenCheck, "PO / Contracts"],
+    { key: "dashboard", icon: LayoutDashboard, label: "Overview" },
+    { key: "intake", icon: UploadCloud, label: "Document intake" },
+    { key: "invoices", icon: FileText, label: "Invoices" },
+    { key: "regulations", icon: Scale, label: "Regulations" },
+    { key: "records", icon: BookOpenCheck, label: "PO / Contracts" },
   ];
 
+  const pageMeta = {
+    dashboard: {
+      title: "Payables overview",
+      subtitle: "Invoice intake, exceptions, and payment-ready exposure",
+    },
+    intake: {
+      title: "Document intake",
+      subtitle: "Upload and extract invoice, PO, and contract documents",
+    },
+    invoices: {
+      title: "Invoices",
+      subtitle: "Approval queue, exceptions, and payment-ready exposure",
+    },
+    regulations: {
+      title: "Regulations",
+      subtitle: "Controls that route and block invoice approval",
+    },
+    records: {
+      title: "PO / Contracts",
+      subtitle: "Purchase orders, contracts, and intake audit",
+    },
+  };
+
+  const meta = pageMeta[view] || pageMeta.dashboard;
+  const showInvoiceActions = view === "dashboard" || view === "invoices";
+
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="app-brand">
-          <BrandLockup variant="sidebar" />
-        </div>
-        <nav>
-          <p className="nav-section-label">Navigate</p>
-          {nav.map(([id, Icon, label]) => (
-            <button
-              key={id}
-              onClick={() => setView(id)}
-              className={view === id ? "active" : ""}
-            >
-              <Icon size={18} />
-              {label}
-            </button>
-          ))}
-        </nav>
-      </aside>
-      <main>
-        <header className="topbar topbar-with-modules">
-          <div className="topbar-leading">
-            <ModuleSwitcher compact />
-            <div>
-              <p className="eyebrow">AP Control Tower</p>
-              <h1>{nav.find((n) => n[0] === view)?.[2]}</h1>
-            </div>
-          </div>
-          <div className="topbar-actions">
-            <div className="user-pill">
-              <UserRound size={16} />
-              <span>{user.name}</span>
-              <strong>{user.approvalRole}</strong>
-            </div>
-            <button onClick={() => receiveInvoice(null)} disabled={busy}>
-              <Radio size={16} />
-              Receive new invoice
-            </button>
-            <button
-              className={autoFeed ? "danger-btn" : "secondary"}
-              onClick={() => setAutoFeed((v) => !v)}
-            >
-              {autoFeed ? <PauseCircle size={16} /> : <PlayCircle size={16} />}
-              Auto feed {autoFeed ? "ON" : "OFF"}
-            </button>
-            <button className="ghost" onClick={loadAll}>
-              <RefreshCw size={16} />
-              {busy ? "Refreshing" : "Refresh"}
-            </button>
-            <button className="ghost" onClick={handleLogout}>
-              <LogOut size={16} />
-              Logout
-            </button>
-          </div>
-        </header>
+    <div className="min-h-screen flex bg-slate-50">
+      <AppSidebar
+        moduleLabel="Payables"
+        accent="violet"
+        items={nav.map((item) => ({
+          key: item.key,
+          label: item.label,
+          icon: item.icon,
+          active: view === item.key,
+          onClick: () => setView(item.key),
+        }))}
+        collapsed={collapsed}
+        onToggleCollapsed={() => setCollapsed((v) => !v)}
+        mobileOpen={sidebarOpen}
+        onCloseMobile={() => setSidebarOpen(false)}
+      />
+      <main className="flex-1 min-h-screen min-w-0 flex flex-col">
+        <AppHeader
+          user={user}
+          onLogout={handleLogout}
+          onMenuClick={() => setSidebarOpen(true)}
+        />
+        <div className="p-6 lg:p-8 flex-1 min-w-0">
+        <PageHeader
+          title={meta.title}
+          subtitle={meta.subtitle}
+          actions={
+            <>
+              {showInvoiceActions && (
+                <>
+                  <Button variant="outline" size="sm" onClick={() => receiveInvoice(null)} disabled={busy}>
+                    <Radio className="w-4 h-4" />
+                    Receive invoice
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setAutoFeed((v) => !v)}
+                    className={autoFeed ? "text-rose-700 border-rose-200" : ""}
+                  >
+                    {autoFeed ? <PauseCircle className="w-4 h-4" /> : <PlayCircle className="w-4 h-4" />}
+                    Auto feed {autoFeed ? "on" : "off"}
+                  </Button>
+                </>
+              )}
+              <Button variant="outline" size="sm" onClick={loadAll} disabled={busy}>
+                <RefreshCw className={`w-4 h-4 ${busy ? "animate-spin" : ""}`} />
+                Refresh
+              </Button>
+            </>
+          }
+        />
         {toast && (
           <div className="toast" onClick={() => setToast("")}>
             {toast}
           </div>
         )}
+        <div className="ap-content">
         {view === "dashboard" && (
           <Dashboard
             summary={summary}
@@ -212,6 +238,8 @@ export default function ApApp() {
         {view === "records" && (
           <Records pos={pos} contracts={contracts} documents={documents} />
         )}
+        </div>
+        </div>
       </main>
     </div>
   );

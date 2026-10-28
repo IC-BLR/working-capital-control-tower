@@ -195,11 +195,10 @@ export default function Forecast() {
 
   return (
     <div className="space-y-8" data-testid="forecast-page">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
-          <h1 className="page-title">Cash Flow Forecast</h1>
-          <p className="text-slate-500 mt-1">Trend-based projections and recommendations</p>
+          <h1 className="page-title">Cash flow forecast</h1>
+          <p className="text-sm text-slate-500 mt-1">Trend-based projections and recommendations</p>
           {forecast?.scenario_description && (
             <div className="mt-2 flex items-center gap-2">
               <div className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">

@@ -1,11 +1,12 @@
 import React from "react";
+import { formatMoney } from "../../lib/formatMoney";
 
 export function Badge({ children, tone = "neutral" }) {
   return <span className={`badge ${tone}`}>{children}</span>;
 }
 
-export function Money({ value, currency = "USD" }) {
-  return <>{currency} {Number(value || 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}</>;
+export function Money({ value, currency = "INR" }) {
+  return <>{formatMoney(value, currency)}</>;
 }
 
 export function Field({ label, value }) {

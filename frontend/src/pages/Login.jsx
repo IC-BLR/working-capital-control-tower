@@ -49,7 +49,7 @@ export default function Login() {
             Working Capital Control Tower
           </h1>
           <p className="text-sm text-slate-600 mt-2">
-            Sign in once for the Cash Calendar, AR Sensei, and AP Control Tower.
+            Sign in once for Cash Calendar, Receivables, and Payables.
           </p>
         </div>
 

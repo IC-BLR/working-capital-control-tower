@@ -14,7 +14,7 @@ const MODULES = [
   },
   {
     id: "ar",
-    label: "AR Sensei",
+    label: "Receivables",
     shortLabel: "AR",
     to: "/ar/dashboard",
     icon: BarChart3,
@@ -23,7 +23,7 @@ const MODULES = [
   },
   {
     id: "ap",
-    label: "AP Control Tower",
+    label: "Payables",
     shortLabel: "AP",
     to: "/ap",
     icon: FileStack,
@@ -32,9 +32,6 @@ const MODULES = [
   },
 ];
 
-/**
- * Top-bar module switcher shared by Cash Calendar, AR Sensei, and AP Control Tower.
- */
 export default function ModuleSwitcher({ className, compact = false }) {
   const { pathname } = useLocation();
 
@@ -42,7 +39,7 @@ export default function ModuleSwitcher({ className, compact = false }) {
     <nav
       aria-label="Switch module"
       className={cn(
-        "module-switcher inline-flex flex-row flex-nowrap items-center gap-1 rounded-xl border border-slate-200 bg-slate-50/80 p-1",
+        "module-switcher inline-flex flex-row flex-nowrap items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 p-1",
         className
       )}
     >
@@ -63,9 +60,8 @@ export default function ModuleSwitcher({ className, compact = false }) {
             )}
           >
             <Icon className="h-4 w-4 shrink-0" />
-            <span className={compact ? "hidden sm:inline" : ""}>
-              {compact ? mod.shortLabel : mod.label}
-            </span>
+            <span className="lg:hidden">{mod.shortLabel}</span>
+            <span className="hidden lg:inline">{mod.label}</span>
           </Link>
         );
       })}

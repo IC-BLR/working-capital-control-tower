@@ -169,8 +169,8 @@ export default function DataPipeline() {
     <div className="space-y-8" data-testid="data-pipeline-page">
       {/* Header */}
       <div>
-        <h1 className="page-title">Data Pipeline</h1>
-        <p className="text-slate-500 mt-1">
+        <h1 className="page-title">Data & settings</h1>
+        <p className="text-sm text-slate-500 mt-1">
           Upload CSV files to ingest payment allocation data and refresh views
         </p>
       </div>

@@ -1,83 +1,76 @@
-/* AP theme is scoped to .app-shell so Cash Calendar / AR are not affected. */
-.app-shell {
+/* AP inner screens. Chrome (header/sidebar) uses the shared Tailwind shell. */
+.ap-content {
   font-family: "Inter", "Aptos", "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #1b1226;
-  --ink: #1b1226;
-  --muted: #6f647d;
-  --line: rgba(95, 37, 159, 0.14);
-  --surface: rgba(255, 255, 255, 0.88);
+  color: #0f172a;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --surface: #ffffff;
   --surface-strong: #ffffff;
-  --surface-soft: #fbf8ff;
-  --primary: #5f259f;
-  --primary-dark: #3f1678;
-  --primary-soft: #f3eafd;
-  --primary-muted: #7b45b8;
-  --cyan: #2f80ed;
-  --success: #07825f;
-  --warn: #b7791f;
-  --danger: #c7362f;
-  --shadow: 0 24px 70px rgba(95, 37, 159, 0.12);
-  --shadow-popover: 0 30px 90px rgba(38, 20, 63, 0.24);
-  --radius: 26px;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(95, 37, 159, .16), transparent 34%),
-    radial-gradient(circle at 80% 10%, rgba(123, 69, 184, .14), transparent 28%),
-    #f7f3fb;
+  --surface-soft: #f8fafc;
+  --primary: #334155;
+  --primary-dark: #0f172a;
+  --primary-soft: #f1f5f9;
+  --primary-muted: #475569;
+  --cyan: #0284c7;
+  --success: #047857;
+  --warn: #b45309;
+  --danger: #b91c1c;
+  --shadow: none;
+  --shadow-popover: 0 16px 40px rgba(15, 23, 42, 0.12);
+  --radius: 12px;
 }
 
-.app-shell *,
-.app-shell *::before,
-.app-shell *::after {
+.ap-content *,
+.ap-content *::before,
+.ap-content *::after {
   box-sizing: border-box;
 }
 
-.app-shell button,
-.app-shell input,
-.app-shell select,
-.app-shell textarea {
+.ap-content button,
+.ap-content input,
+.ap-content select,
+.ap-content textarea {
   font: inherit;
 }
 
-.app-shell button {
-  border: 0;
-  border-radius: 14px;
-  padding: 12px 16px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+.ap-content button {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #0f172a;
   color: white;
-  font-weight: 750;
+  font-weight: 500;
   cursor: pointer;
   display: inline-flex;
   gap: 8px;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 14px 34px rgba(95, 37, 159, .24);
+  box-shadow: none;
 }
 
-.app-shell button:disabled {
+.ap-content button:disabled {
   opacity: .55;
   cursor: not-allowed;
 }
 
-.app-shell button.ghost,
-.app-shell .ghost {
+.ap-content button.ghost,
+.ap-content .ghost {
   background: rgba(255, 255, 255, .72);
   color: var(--ink);
   border: 1px solid var(--line);
   box-shadow: none;
 }
 
-.app-shell button.secondary,
-.app-shell .secondary {
-  background: #f3eafd;
-  color: var(--primary-dark);
-  border: 1px solid rgba(95, 37, 159, .16);
+.ap-content button.secondary,
+.ap-content .secondary {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
   box-shadow: none;
 }
 
-.app-shell .danger-btn {
+.ap-content .danger-btn {
   background: #fff1f0;
   color: var(--danger);
   border: 1px solid #ffd7d3;
@@ -145,7 +138,7 @@
   background: var(--surface-strong);
   border-color: var(--line);
   color: var(--primary);
-  box-shadow: 0 12px 30px rgba(95, 37, 159, .08);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, .08);
 }
 
 .sidebar-card {
@@ -158,9 +151,9 @@
   gap: 8px;
 }
 
-.app-shell main {
-  padding: 30px;
-  overflow: auto;
+.ap-content main {
+  padding: 0;
+  overflow: visible;
 }
 
 .topbar {
@@ -202,26 +195,26 @@
   color: var(--muted);
 }
 
-.app-shell h1,
-.app-shell h2,
-.app-shell h3,
-.app-shell p {
+.ap-content h1,
+.ap-content h2,
+.ap-content h3,
+.ap-content p {
   margin-top: 0;
 }
 
-.app-shell h1 {
+.ap-content h1 {
   font-size: 32px;
   letter-spacing: -.04em;
   margin-bottom: 0;
 }
 
-.app-shell h2 {
-  font-size: 28px;
-  letter-spacing: -.04em;
-  line-height: 1.08;
+.ap-content h2 {
+  font-size: 20px;
+  letter-spacing: -.02em;
+  line-height: 1.25;
 }
 
-.app-shell h3 {
+.ap-content h3 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -249,17 +242,16 @@
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
+  box-shadow: none;
 }
 
 .hero-card {
-  padding: 28px;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
-  gap: 28px;
+  gap: 20px;
   align-items: center;
-  background: linear-gradient(135deg, rgba(255, 255, 255, .92), rgba(237, 242, 255, .75));
+  background: #ffffff;
 }
 
 .hero-card p {
@@ -406,8 +398,8 @@
   color: var(--muted);
 }
 
-.app-shell select,
-.app-shell textarea {
+.ap-content select,
+.ap-content textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -417,7 +409,7 @@
   outline: none;
 }
 
-.app-shell textarea {
+.ap-content textarea {
   min-height: 330px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 13px;
@@ -431,7 +423,7 @@
 
 .drop {
   min-height: 190px;
-  border: 1.5px dashed rgba(95, 37, 159, .38);
+  border: 1.5px dashed rgba(15, 23, 42, .38);
   background: rgba(255, 255, 255, .54);
   border-radius: 22px;
   display: grid;
@@ -502,28 +494,62 @@
   gap: 10px;
 }
 
+.ap-content button.invoice-row,
 .invoice-row {
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 12px;
   align-items: center;
-  background: rgba(255, 255, 255, .64);
+  width: 100%;
+  padding: 10px 12px;
+  background: #ffffff;
   color: var(--ink);
   box-shadow: none;
   border: 1px solid var(--line);
   text-align: left;
+  font-weight: 500;
+  border-radius: 10px;
+  justify-content: stretch;
 }
 
+.ap-content button.invoice-row:hover,
+.invoice-row:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.ap-content button.invoice-row.active,
 .invoice-row.active {
-  border-color: rgba(95, 37, 159, .42);
-  box-shadow: 0 14px 34px rgba(95, 37, 159, .12);
+  border-color: #94a3b8;
+  background: #f1f5f9;
+  box-shadow: none;
 }
 
-.invoice-row span {
+.invoice-row-main {
+  min-width: 0;
+}
+
+.invoice-row-main strong {
+  display: block;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.invoice-row-main span {
   display: block;
   color: var(--muted);
-  font-size: 13px;
-  margin-top: 3px;
+  font-size: 12px;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-content button.invoice-row .badge {
+  display: inline-flex;
+  margin: 0;
+  font-size: 11px;
+  padding: 4px 8px;
 }
 
 .detail-head {
@@ -568,7 +594,7 @@
   align-items: start;
   padding: 16px;
   background: #f6efff;
-  color: #3f1678 !important;
+  color: #0f172a !important;
   border: 1px solid #d7c4ea;
   border-radius: 18px;
   font-weight: 650;
@@ -632,7 +658,7 @@
 }
 
 @media (max-width: 1180px) {
-  .app-shell {
+  .ap-content {
     grid-template-columns: 1fr;
   }
 
@@ -655,7 +681,7 @@
 
 @media (max-width: 640px) {
 
-  .app-shell main,
+  .ap-content main,
   .sidebar {
     padding: 18px;
   }
@@ -744,9 +770,9 @@
 }
 
 .row-badges {
-  display: grid;
-  gap: 6px;
-  justify-items: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .state-summary {
@@ -762,7 +788,7 @@
   margin: 18px 0;
   padding: 18px;
   border-radius: 22px;
-  border: 1px solid rgba(95, 37, 159, .18);
+  border: 1px solid rgba(15, 23, 42, .18);
   background: linear-gradient(135deg, rgba(255, 255, 255, .86), rgba(245, 243, 255, .72));
 }
 
@@ -916,19 +942,21 @@
 .queue-scroll {
   overflow: auto;
   display: grid;
-  gap: 10px;
+  gap: 6px;
   padding-right: 4px;
 }
 
 .compact-row {
   grid-template-columns: minmax(0, 1fr) auto auto;
-  padding: 12px;
+  padding: 10px 12px;
 }
 
 .queue-amount {
-  font-weight: 850;
-  color: #3b2d4b;
+  font-weight: 600;
+  color: #0f172a;
   font-size: 13px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .approval-workspace {
@@ -944,7 +972,7 @@
   border: 1px solid var(--line);
   border-radius: 24px;
   padding: 18px;
-  box-shadow: 0 18px 44px rgba(95, 37, 159, .08);
+  box-shadow: 0 18px 44px rgba(15, 23, 42, .08);
 }
 
 .compact-detail-head h2 {
@@ -1041,9 +1069,9 @@
 
 .approval-tabs button.active {
   background: white;
-  color: var(--primary);
-  border: 1px solid rgba(95, 37, 159, .20);
-  box-shadow: 0 8px 20px rgba(95, 37, 159, .10);
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  box-shadow: none;
 }
 
 .tab-surface {
@@ -1091,8 +1119,9 @@
   gap: 12px;
 }
 
+.ap-content button.info-tile,
 .info-tile {
-  background: rgba(255, 255, 255, .74);
+  background: #ffffff;
   color: var(--ink);
   border: 1px solid var(--line);
   box-shadow: none;
@@ -1102,6 +1131,7 @@
   display: grid;
   gap: 6px;
   padding: 16px;
+  border-radius: 10px;
 }
 
 .info-tile svg {
@@ -1256,7 +1286,7 @@
   display: grid;
   place-items: center;
   padding: 28px;
-  background: radial-gradient(circle at 18% 12%, rgba(95, 37, 159, .18), transparent 34%), radial-gradient(circle at 82% 18%, rgba(0, 168, 200, .16), transparent 30%), #f7f3fb;
+  background: radial-gradient(circle at 18% 12%, rgba(15, 23, 42, .18), transparent 34%), radial-gradient(circle at 82% 18%, rgba(0, 168, 200, .16), transparent 30%), #f7f3fb;
 }
 
 .login-card {
@@ -1301,8 +1331,8 @@
 
 .login-card input:focus,
 .search-box:focus {
-  border-color: rgba(95, 37, 159, .45);
-  box-shadow: 0 0 0 4px rgba(95, 37, 159, .09);
+  border-color: rgba(15, 23, 42, .45);
+  box-shadow: 0 0 0 4px rgba(15, 23, 42, .09);
 }
 
 .login-brand {
@@ -1329,7 +1359,7 @@
 .demo-users button.active {
   background: #f6efff;
   color: var(--primary-dark);
-  border-color: rgba(95, 37, 159, .28);
+  border-color: rgba(15, 23, 42, .28);
 }
 
 .demo-users span {
@@ -1404,40 +1434,17 @@
 }
 
 
-/* PhonePe-inspired fintech theme polish (AP shell only) */
-.app-shell {
-  background:
-    radial-gradient(circle at 7% 4%, rgba(95, 37, 159, .18), transparent 30%),
-    radial-gradient(circle at 88% 8%, rgba(123, 69, 184, .13), transparent 28%),
-    linear-gradient(180deg, #fbf8ff 0%, #f7f3fb 42%, #ffffff 100%);
-}
-
-.sidebar {
-  background: linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(251, 248, 255, .72));
-}
-
-.brand-mark {
-  background: linear-gradient(135deg, #5f259f, #7b45b8);
-  box-shadow: 0 16px 34px rgba(95, 37, 159, .24);
-}
-
-.sidebar nav button.active {
-  background: #ffffff;
-  color: #5f259f;
-  border-color: rgba(95, 37, 159, .18);
-}
-
 .hero-card {
-  background: linear-gradient(135deg, #ffffff 0%, #fbf8ff 52%, #f3eafd 100%);
+  background: #ffffff;
 }
 
 .hero-card h1,
 .login-card h1 {
-  color: #1b1226;
+  color: #0f172a;
 }
 
 .eyebrow {
-  color: #5f259f;
+  color: #64748b;
 }
 
 .metric,
@@ -1445,41 +1452,23 @@
 .panel,
 .tab-surface,
 .login-card {
-  box-shadow: 0 22px 60px rgba(95, 37, 159, .10);
-}
-
-.app-shell button {
-  background: linear-gradient(135deg, #5f259f, #7b45b8);
-  box-shadow: 0 14px 34px rgba(95, 37, 159, .24);
-}
-
-.app-shell button.secondary,
-.app-shell .secondary {
-  background: #f3eafd;
-  color: #3f1678;
-  border-color: #d7c4ea;
-}
-
-.app-shell button.ghost,
-.app-shell .ghost {
-  color: #3f1678;
-  border-color: rgba(95, 37, 159, .16);
+  box-shadow: none;
 }
 
 .badge.info {
-  color: #5f259f;
-  background: #f3eafd;
-  border-color: #d7c4ea;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border-color: #bfdbfe;
 }
 
 .approval-sticky-head {
-  background: linear-gradient(180deg, rgba(255, 255, 255, .97), rgba(251, 248, 255, .91));
+  background: #ffffff;
 }
 
 .rail-step span,
 .step-index,
 .pulse-dot {
-  background: linear-gradient(135deg, #5f259f, #7b45b8);
+  background: #334155;
 }
 
 .layer-panel {
@@ -1487,12 +1476,12 @@
 }
 
 .login-shell {
-  background: radial-gradient(circle at 18% 12%, rgba(95, 37, 159, .18), transparent 34%), radial-gradient(circle at 82% 18%, rgba(123, 69, 184, .15), transparent 30%), #f7f3fb;
+  background: #f8fafc;
 }
 
 .user-pill strong,
 .state-summary strong {
-  color: #3f1678;
+  color: #0f172a;
 }
 
 .capability-strip,
@@ -1654,7 +1643,7 @@
   padding: 15px;
   margin-top: 14px;
   background: #fff;
-  box-shadow: 0 18px 44px rgba(95, 37, 159, .08);
+  box-shadow: 0 18px 44px rgba(15, 23, 42, .08);
 }
 
 .reg-impact-card.compact {
@@ -1677,7 +1666,7 @@
 }
 
 .reg-impact-card.info {
-  background: linear-gradient(135deg, #ffffff, #f3eafd);
+  background: linear-gradient(135deg, #ffffff, #f1f5f9);
   border-color: #d7c4ea;
 }
 
@@ -1723,7 +1712,7 @@
 }
 
 .reg-impact-meta div {
-  border: 1px solid rgba(95, 37, 159, .10);
+  border: 1px solid rgba(15, 23, 42, .10);
   border-radius: 15px;
   padding: 10px;
   background: rgba(255, 255, 255, .68);
@@ -1764,7 +1753,7 @@
 
 .rail-reg.info {
   color: var(--primary);
-  background: #f3eafd;
+  background: #f1f5f9;
 }
 
 .reg-tab-layout {
@@ -1841,7 +1830,7 @@
 }
 
 .reg-matrix-row {
-  border-top: 1px solid rgba(95, 37, 159, .08);
+  border-top: 1px solid rgba(15, 23, 42, .08);
 }
 
 .reg-matrix-row small {
@@ -1876,7 +1865,7 @@
 }
 
 .regulation-tile {
-  border-color: rgba(95, 37, 159, .20);
+  border-color: rgba(15, 23, 42, .20);
   background: linear-gradient(135deg, #ffffff, #fbf8ff);
 }
 
@@ -1902,7 +1891,7 @@
 
 /* Full linked document preview + no page-scroll invoice cockpit */
 .approval-console {
-  height: calc(100vh - 138px);
+  height: calc(100vh - 220px);
   min-height: 0;
   overflow: hidden;
 }
@@ -2015,8 +2004,20 @@
   font-size: 14px;
 }
 
-.source-doc-strip button {
+.source-doc-strip button,
+.ap-content button.source-doc-chip {
   white-space: nowrap;
+  background: #ffffff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+  display: grid;
+  grid-template-columns: 18px auto auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-align: left;
 }
 
 .matching-doc-grid {
@@ -2037,7 +2038,7 @@
   padding: 14px;
   display: grid;
   gap: 12px;
-  box-shadow: 0 14px 36px rgba(95, 37, 159, .08);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, .08);
 }
 
 .doc-match-head {
@@ -2115,7 +2116,7 @@
   border-radius: 18px;
   display: grid;
   place-items: center;
-  background: #f3eafd;
+  background: #f1f5f9;
   color: var(--primary);
 }
 
@@ -2141,8 +2142,8 @@
 .doc-preview-tabs button.active {
   background: white;
   color: var(--primary);
-  border: 1px solid rgba(95, 37, 159, .20);
-  box-shadow: 0 8px 20px rgba(95, 37, 159, .10);
+  border: 1px solid rgba(15, 23, 42, .20);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, .10);
 }
 
 .doc-preview-surface {

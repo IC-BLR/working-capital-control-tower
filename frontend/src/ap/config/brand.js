@@ -1,7 +1,7 @@
 export const brand = {
-  productName: "AP Control Tower",
+  productName: "Payables",
   companyName: "Working Capital",
   logoSrc: "/logoP.jpeg",
   logoAlt: "Working Capital logo",
-  primaryColor: "#5F259F",
+  primaryColor: "#0f172a",
 };

@@ -32,6 +32,8 @@ import {
 } from "../components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { AR_API_BASE } from "../config";
+import PageHeader from "../components/PageHeader";
+import KpiTile from "../components/KpiTile";
 import * as XLSX from "xlsx";
 
 /* =========================
@@ -246,30 +248,28 @@ export default function Partners() {
   ========================== */
   return (
     <div className="space-y-8" data-testid="partners-page">
-      {/* Header + Export */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="page-title">Partners</h1>
-          <p className="text-slate-500 mt-1">Partner Records</p>
-        </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="btn-secondary">
-              <Download className="w-4 h-4 mr-2" />
-              Export
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => handleExport("excel")}>Export as Excel</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleExport("csv")}>Export as CSV</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <PageHeader
+        title="Partners"
+        subtitle="Counterparties and open exposure"
+        actions={
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4" />
+                Export
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleExport("excel")}>Export as Excel</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleExport("csv")}>Export as CSV</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        }
+      />
 
-      {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <SummaryCard label="Total Outstanding" value={totalOutstanding} icon={Building2} color="orange"/>
-        <SummaryCard label="Total Overdue" value={totalOverdue} icon={AlertTriangle} color="red"/>
+        <KpiTile label="Total outstanding" value={formatCrores(totalOutstanding)} icon={Building2} tone="orange" />
+        <KpiTile label="Total overdue" value={formatCrores(totalOverdue)} icon={AlertTriangle} tone="rose" />
       </div>
 
       {/* Search */}
@@ -475,31 +475,6 @@ export default function Partners() {
             </Button>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-/* =========================
-   Summary Card
-========================= */
-function SummaryCard({ label, value, icon: Icon, color }) {
-  const colors = {
-    slate: "bg-slate-100 text-slate-700",
-    red: "bg-red-100 text-red-700",
-    amber: "bg-amber-100 text-amber-700",
-    emerald: "bg-emerald-100 text-emerald-700",
-    orange: "bg-orange-100 text-orange-700"
-  };
-
-  return (
-    <div className="glass-card p-4 flex items-center gap-4">
-      <div className={`p-3 rounded-xl ${colors[color]}`}>
-        <Icon className="w-5 h-5" />
-      </div>
-      <div>
-        <p className="text-sm text-slate-500">{label}</p>
-        <p className="text-2xl font-bold text-slate-900">{formatCrores(value)}</p>
       </div>
     </div>
   );

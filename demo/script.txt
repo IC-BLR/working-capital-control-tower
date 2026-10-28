@@ -1,0 +1,9 @@
+SCENE 01|01_login.png|Working Capital Control Tower is a Working Capital Intelligence platform. It unifies cash coming in, cash going out, timing, risk, and decisions for the C F O.
+SCENE 02|02_calendar.png|The Cash Calendar shows receivable inflows against payable outflows. Net Working Capital Exposure — total receivables minus total payables — becomes one forward view.
+SCENE 03|03_ar_portfolio.png|Receivables use outstanding due amount, not original invoice value. At portfolio level: total due, overdue exposure, partner risk, and aging as a timing breakdown.
+SCENE 04|04_ar_partners.png|Customers rank by outstanding receivable due, highest first. Aging buckets show when cash is expected — they do not create another Working Capital total.
+SCENE 05|05_ar_invoice.png|At invoice level, each receivable shows outstanding due, overdue amount, and status — so collections act on the exact document driving partner risk.
+SCENE 06|06_ap_portfolio.png|Payables mirror the model for vendors: invoice count, exception exposure, and payment-ready versus held obligations under active controls.
+SCENE 07|07_ap_invoice.png|One payable invoice can clear to payment-ready, or stay blocked on policy — obligation stays visible while cash is protected.
+SCENE 08|08_assistant.png|The C F O A I Assistant answers Working Capital questions on receivables — outstanding, overdue, partners, and forecast — routing each ask to the right data level.
+SCENE 09|09_close.png|One loop for the C F O: Receivables in, Payables out, aging for timing, overdue for risk, and A I for decisions on a shared Working Capital picture.

@@ -5,13 +5,11 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   Landmark,
-  LogOut,
   PauseCircle,
   RefreshCw,
   ShieldAlert,
   Target,
 } from "lucide-react";
-import ModuleSwitcher from "../components/ModuleSwitcher";
 import {
   Bar,
   CartesianGrid,
@@ -27,15 +25,10 @@ import { WC_API_BASE } from "../config";
 import { useAuth } from "../auth/AuthContext";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
-
-function formatMoney(value) {
-  const n = Number(value || 0);
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
+import AppHeader from "../components/AppHeader";
+import PageHeader from "../components/PageHeader";
+import KpiTile from "../components/KpiTile";
+import { formatMoney } from "../lib/formatMoney";
 
 const SCENARIOS = [
   { id: "baseline", label: "Current plan (no changes)", defer: 0 },
@@ -128,60 +121,27 @@ export default function CashCalendar() {
   }));
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#edf5f8]">
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-sky-300/40 blur-3xl" />
-        <div className="absolute top-1/4 -right-16 h-96 w-96 rounded-full bg-emerald-300/30 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-cyan-200/35 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(14,165,233,0.14),_transparent_55%)]" />
-      </div>
+    <div className="min-h-screen bg-slate-50">
+      <AppHeader
+        user={user}
+        onLogout={async () => {
+          await logout();
+          navigate("/login");
+        }}
+      />
 
-      <header className="relative sticky top-0 z-20 border-b border-sky-200/60 bg-white/55 backdrop-blur-xl shadow-sm shadow-sky-900/5">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-500 to-emerald-500 text-white flex items-center justify-center shrink-0 font-bold shadow-lg shadow-sky-500/30">
-              WC
-            </div>
-            <div className="min-w-0">
-              <p className="text-xs uppercase tracking-widest text-sky-700/80 font-semibold">
-                Working Capital Control Tower
-              </p>
-              <h1 className="text-2xl font-bold text-slate-900" style={{ fontFamily: "Manrope, sans-serif" }}>
-                Cash Calendar
-              </h1>
-              <p className="text-sm text-slate-600">
-                AR expected inflows vs AP obligated outflows — dated net position
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <ModuleSwitcher compact />
-            <div className="text-right text-sm px-2 hidden sm:block">
-              <p className="font-medium text-slate-900">{user?.name}</p>
-              <p className="text-xs text-slate-500">{user?.approvalRole}</p>
-            </div>
-            <Button variant="outline" size="sm" className="bg-white/80 border-sky-200" onClick={load} disabled={loading}>
-              <RefreshCw className={`w-4 h-4 mr-1 ${loading ? "animate-spin" : ""}`} />
+      <main className="max-w-7xl mx-auto px-6 py-8 space-y-6">
+        <PageHeader
+          title="Cash Calendar"
+          subtitle="Expected inflows vs obligated outflows"
+          actions={
+            <Button variant="outline" size="sm" onClick={load} disabled={loading}>
+              <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
               Refresh
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-white/80 border-sky-200"
-              onClick={async () => {
-                await logout();
-                navigate("/login");
-              }}
-            >
-              <LogOut className="w-4 h-4 mr-1" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="relative max-w-7xl mx-auto px-6 py-8 space-y-6">
-        <div className="rounded-2xl border border-sky-200/70 bg-gradient-to-r from-white/90 via-sky-50/80 to-emerald-50/70 p-4 md:p-5 shadow-md shadow-sky-900/5 backdrop-blur-md">
+          }
+        />
+        <div className="rounded-xl border border-slate-200 bg-white p-4 md:p-5">
           <div className="flex flex-wrap gap-6 items-end">
             <div className="space-y-2">
               <div>
@@ -189,7 +149,7 @@ export default function CashCalendar() {
                 <p className="text-xs text-slate-500">How far into the future to show cash in and out</p>
               </div>
               <div
-                className="inline-flex rounded-xl border border-sky-200 bg-white/70 p-1 shadow-inner"
+                className="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1"
                 role="group"
                 aria-label="Look ahead period"
               >
@@ -200,8 +160,8 @@ export default function CashCalendar() {
                     onClick={() => setDays(h.days)}
                     title={h.hint}
                     className={`px-3 py-1.5 text-sm rounded-lg transition-colors border ${days === h.days
-                        ? "bg-gradient-to-r from-sky-600 to-cyan-600 text-white border-transparent shadow-md shadow-sky-500/25"
-                        : "border-transparent text-slate-700 hover:bg-sky-50"
+                        ? "bg-sky-100 text-sky-800 border-sky-200 font-medium"
+                        : "border-transparent text-slate-700 hover:bg-white"
                       }`}
                   >
                     {h.label}
@@ -219,7 +179,7 @@ export default function CashCalendar() {
               </div>
               <select
                 id="wc-scenario"
-                className="w-full rounded-xl border border-sky-200 bg-white/90 px-3 py-2.5 text-sm text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400/40"
                 value={scenario}
                 onChange={(e) => setScenario(e.target.value)}
               >
@@ -232,7 +192,7 @@ export default function CashCalendar() {
             </div>
 
             {data?.as_of && (
-              <p className="text-xs font-medium text-sky-800/70 pb-2 ml-auto bg-white/50 px-3 py-1.5 rounded-full border border-sky-100">
+              <p className="text-xs font-medium text-slate-500 pb-2 ml-auto bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200">
                 Data as of {data.as_of}
               </p>
             )}
@@ -244,25 +204,25 @@ export default function CashCalendar() {
         )}
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Kpi
+          <KpiTile
             label={`Expected inflows (next ${days} days)`}
             value={formatMoney(kpis.inflows)}
             icon={ArrowDownRight}
             tone="emerald"
           />
-          <Kpi
+          <KpiTile
             label={`Obligated outflows (next ${days} days)`}
             value={formatMoney(kpis.obligated_outflows)}
             icon={ArrowUpRight}
             tone="rose"
           />
-          <Kpi
+          <KpiTile
             label="Net WC signal"
             value={formatMoney(kpis.net)}
             icon={Landmark}
             tone={Number(kpis.net) >= 0 ? "emerald" : "rose"}
           />
-          <Kpi
+          <KpiTile
             label="Held / cash at risk"
             value={`${formatMoney(kpis.held)} / ${formatMoney(kpis.cash_at_risk)}`}
             icon={ShieldAlert}
@@ -271,8 +231,8 @@ export default function CashCalendar() {
           />
         </div>
 
-        <div className="rounded-2xl border border-sky-200/80 bg-white/75 shadow-lg shadow-sky-900/5 backdrop-blur-md overflow-hidden">
-          <div className="px-4 md:px-6 py-3 border-b border-sky-100 bg-gradient-to-r from-sky-600/10 via-cyan-500/5 to-emerald-500/10">
+        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+          <div className="px-4 md:px-6 py-3 border-b border-slate-200">
             <h2 className="font-semibold text-slate-900">Daily cash trajectory</h2>
             <p className="text-xs text-slate-500 mt-0.5">Inflows, obligated outflows, and net position by day</p>
           </div>
@@ -282,7 +242,7 @@ export default function CashCalendar() {
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#bae6fd" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="label" tick={{ fontSize: 11, fill: "#475569" }} />
                   <YAxis
                     tick={{ fontSize: 11, fill: "#475569" }}
@@ -290,7 +250,7 @@ export default function CashCalendar() {
                   />
                   <Tooltip
                     formatter={(v) => formatMoney(v)}
-                    contentStyle={{ borderRadius: 12, borderColor: "#e0f2fe" }}
+                    contentStyle={{ borderRadius: 12, borderColor: "#e2e8f0" }}
                   />
                   <Legend />
                   <Bar dataKey="inflow" name="Inflows" fill="#10b981" opacity={0.9} radius={[4, 4, 0, 0]} />
@@ -316,7 +276,7 @@ export default function CashCalendar() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 rounded-2xl border border-sky-200/80 bg-white/75 shadow-lg shadow-sky-900/5 backdrop-blur-md p-4 md:p-6">
+          <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white p-4 md:p-6">
             <div className="flex flex-wrap gap-2 mb-4">
               {[
                 ["inflows", `Inflows (${inflows.length})`, "emerald"],
@@ -361,7 +321,7 @@ export default function CashCalendar() {
             />
           </div>
 
-          <div className="rounded-2xl border border-emerald-200/70 bg-gradient-to-b from-emerald-50/90 to-white/85 shadow-lg shadow-emerald-900/5 backdrop-blur-md p-4 md:p-6 space-y-4">
+          <div className="rounded-xl border border-slate-200 bg-white p-4 md:p-6 space-y-4">
             <div>
               <h2 className="font-semibold text-slate-900">Suggested actions</h2>
               <p className="text-xs text-slate-500 mt-1">
@@ -375,7 +335,7 @@ export default function CashCalendar() {
               {(data?.actions_suggested || []).map((a) => (
                 <div
                   key={a.id}
-                  className="rounded-xl border border-white bg-white/90 p-3 space-y-2 shadow-sm ring-1 ring-sky-100/80"
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-3 space-y-2"
                 >
                   <div className="flex items-start gap-2">
                     {a.label?.includes("Hold") ? (
@@ -427,42 +387,6 @@ export default function CashCalendar() {
   );
 }
 
-function Kpi({ label, value, icon: Icon, tone, hint }) {
-  const tones = {
-    emerald: {
-      card: "from-emerald-100/90 via-emerald-50 to-white border-emerald-300/70 shadow-emerald-900/10",
-      icon: "bg-emerald-500 text-white shadow-emerald-500/35",
-      value: "text-emerald-950",
-    },
-    rose: {
-      card: "from-rose-100/90 via-rose-50 to-white border-rose-300/70 shadow-rose-900/10",
-      icon: "bg-rose-500 text-white shadow-rose-500/35",
-      value: "text-rose-950",
-    },
-    amber: {
-      card: "from-amber-100/90 via-amber-50 to-white border-amber-300/70 shadow-amber-900/10",
-      icon: "bg-amber-500 text-white shadow-amber-500/35",
-      value: "text-amber-950",
-    },
-    sky: {
-      card: "from-sky-100/90 via-sky-50 to-white border-sky-300/70 shadow-sky-900/10",
-      icon: "bg-sky-500 text-white shadow-sky-500/35",
-      value: "text-sky-950",
-    },
-  };
-  const t = tones[tone] || tones.sky;
-  return (
-    <div className={`rounded-2xl border bg-gradient-to-br ${t.card} p-5 shadow-md`}>
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 shadow-md ${t.icon}`}>
-        <Icon className="w-5 h-5" />
-      </div>
-      <p className="text-xs uppercase tracking-wide text-slate-500 font-medium">{label}</p>
-      <p className={`text-xl font-bold mt-1 break-words ${t.value}`}>{value}</p>
-      {hint && <p className="text-xs text-slate-500 mt-1">{hint}</p>}
-    </div>
-  );
-}
-
 function EventTable({ rows, onHold, onCollect }) {
   if (!rows?.length) {
     return <p className="text-sm text-slate-500 py-6">No events in this bucket for the selected horizon.</p>;
@@ -472,10 +396,10 @@ function EventTable({ rows, onHold, onCollect }) {
     "inline-flex items-center h-7 px-0 bg-transparent border-0 shadow-none rounded-none text-xs font-medium hover:underline cursor-pointer";
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-sky-100 bg-white/60">
+    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
       <table className="w-full text-sm table-fixed">
         <thead>
-          <tr className="text-left text-xs text-slate-500 border-b border-sky-100 bg-sky-50/70">
+          <tr className="text-left text-xs text-slate-500 border-b border-slate-200 bg-slate-50">
             <th className="py-2.5 px-3 w-[7.5rem]">Date</th>
             <th className="py-2.5 pr-3">Counterparty</th>
             <th className="py-2.5 pr-3 w-[7rem]">Ref</th>
@@ -486,7 +410,7 @@ function EventTable({ rows, onHold, onCollect }) {
         </thead>
         <tbody>
           {rows.slice(0, 40).map((e) => (
-            <tr key={e.event_id} className="border-b border-sky-50/80 hover:bg-sky-50/40">
+            <tr key={e.event_id} className="border-b border-slate-100 hover:bg-slate-50">
               <td className="py-2.5 px-3 whitespace-nowrap align-middle">{e.cash_date}</td>
               <td className="py-2.5 pr-3 align-middle truncate" title={e.counterparty_name}>
                 {e.counterparty_name}
@@ -498,7 +422,7 @@ function EventTable({ rows, onHold, onCollect }) {
                 {formatMoney(e.amount)}
               </td>
               <td className="py-2.5 pr-3 align-middle">
-                <span className="text-xs rounded-full bg-sky-50 text-sky-800 border border-sky-100 px-2 py-0.5 whitespace-nowrap">
+                <span className="text-xs rounded-full bg-slate-50 text-slate-700 border border-slate-200 px-2 py-0.5 whitespace-nowrap">
                   {e.certainty || e.status}
                 </span>
               </td>

@@ -15,8 +15,7 @@ export default function Home() {
             Working Capital Control Tower
           </h1>
           <p className="text-slate-600 mt-1 max-w-2xl">
-            One shell for AR collections analytics, AP document intelligence, and net liquidity —
-            shared login, dual API namespaces under a single backend.
+            One shell for cash calendar, receivables, and payables.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -41,15 +40,15 @@ export default function Home() {
         />
         <TowerCard
           to="/ar/dashboard"
-          title="AR Sensei"
-          description="CFO analytics — partners, aging, insights, forecast, pipeline, and AI chatbot."
+          title="Receivables"
+          description="Partners, aging, insights, forecast, pipeline, and AI assistant."
           icon={BarChart3}
           tone="emerald"
         />
         <TowerCard
           to="/ap"
-          title="AP Control Tower"
-          description="Document intake, OCR matching, exceptions, live feed, and role-based approvals."
+          title="Payables"
+          description="Document intake, matching, exceptions, live feed, and role-based approvals."
           icon={FileStack}
           tone="violet"
         />

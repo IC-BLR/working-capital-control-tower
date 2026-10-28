@@ -13,3 +13,9 @@ build/
 dist/
 *.egg-info/
 .pytest_cache/
+
+# Demo build intermediates (keep frames/script/final mp4)
+demo/.venv/
+demo/audio/
+demo/clips/
+demo/concat.txt

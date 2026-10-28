@@ -32,6 +32,8 @@ import {
 } from "../components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { AR_API_BASE } from "../config";
+import PageHeader from "../components/PageHeader";
+import KpiTile from "../components/KpiTile";
 
 /* ... PaymentHistoryPanel Component stays exactly the same ... */
 const PaymentHistoryPanel = ({ invoice, onClose }) => {
@@ -294,51 +296,34 @@ export default function Invoices() {
         />
       )}
 
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="page-title">Invoices</h1>
-          <p className="text-slate-500 mt-1">
-            Invoice-level aging and payment visibility
-          </p>
-        </div>
+      <PageHeader
+        title="Invoices"
+        subtitle="Invoice-level aging and payment visibility"
+        actions={
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4" />
+                Export
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleExport('excel')}>
+                Export as Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleExport('csv')}>
+                Export as CSV
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        }
+      />
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="btn-secondary">
-              <Download className="w-4 h-4 mr-2" />
-              Export
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => handleExport('excel')}>
-              Export as Excel
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleExport('csv')}>
-              Export as CSV
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-
-      {/* Summary - Uses Memoized Data */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {[
-          { label: "Total Invoices", value: summary.total },
-          { label: "Overdue", value: summary.overdue },
-          { label: "90+ Days", value: summary.plus90 },
-          { label: "On Time", value: summary.onTime },
-        ].map((s, i) => (
-          <div key={i} className="glass-card p-4 flex gap-4">
-            <div className="p-3 bg-slate-100 rounded-xl">
-              <FileText className="w-5 h-5 text-slate-700" />
-            </div>
-            <div>
-              <p className="text-sm text-slate-500">{s.label}</p>
-              <p className="text-2xl font-bold">{s.value}</p>
-            </div>
-          </div>
-        ))}
+        <KpiTile label="Total invoices" value={summary.total} icon={FileText} tone="slate" />
+        <KpiTile label="Overdue" value={summary.overdue} icon={FileText} tone="rose" />
+        <KpiTile label="90+ days" value={summary.plus90} icon={FileText} tone="amber" />
+        <KpiTile label="On time" value={summary.onTime} icon={FileText} tone="emerald" />
       </div>
 
       {/* Search */}

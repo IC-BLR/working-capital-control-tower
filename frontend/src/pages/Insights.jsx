@@ -29,6 +29,7 @@ import { Input } from "../components/ui/input"; // Added Input for search
 import { toast } from "sonner";
 
 import { AR_API_BASE } from "../config";
+import PageHeader from "../components/PageHeader";
 
 export default function Insights() {
   const navigate = useNavigate();
@@ -201,32 +202,28 @@ export default function Insights() {
 
   return (
     <div className="space-y-8">
-      {/* Header + Export */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="page-title">Partner Risk Insights</h1>
-          <p className="text-slate-500 mt-1">
-            Invoice-level ML risk aggregated at partner level
-          </p>
-        </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="btn-secondary">
-              <Download className="w-4 h-4 mr-2" />
-              Export
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => handleExport("excel")}>
-              Export as Excel
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleExport("csv")}>
-              Export as CSV
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <PageHeader
+        title="Partner risk insights"
+        subtitle="Invoice-level ML risk aggregated at partner level"
+        actions={
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4" />
+                Export
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleExport("excel")}>
+                Export as Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleExport("csv")}>
+                Export as CSV
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        }
+      />
 
       {/* ===== Minimal Search Bar Added ===== */}
       <div className="glass-card p-4">
